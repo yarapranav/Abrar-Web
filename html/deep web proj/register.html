@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - SA.C South Asia Explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="cookies.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary: #1a2980;
+            --secondary: #26d0ce;
+            --accent: #ff6b6b;
+        }
+        
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1523480717984-24cba35ae1eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .register-container {
+            width: 100%;
+            max-width: 550px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .register-header {
+            background: linear-gradient(135deg, var(--primary), #3a4dcc);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .register-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .register-form {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+        }
+        
+        .input-with-icon input,
+        .input-with-icon select {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .input-with-icon input:focus,
+        .input-with-icon select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .name-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .register-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), #3a4dcc);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .register-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(26, 41, 128, 0.3);
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #718096;
+        }
+        
+        .login-link a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .message.success {
+            background-color: rgba(38, 208, 206, 0.1);
+            border-left: 4px solid var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .message.error {
+            background-color: rgba(255, 107, 107, 0.1);
+            border-left: 4px solid var(--accent);
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <h1><i class="fas fa-user-plus"></i> Create Account</h1>
+            <p>Join SA.C to explore South Asian geography and culture</p>
+        </div>
+        
+        <div class="register-form">
+            <div id="messageContainer"></div>
+            
+            <form id="registerForm">
+                <div class="name-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="firstName" placeholder="John" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="lastName" placeholder="Doe" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="john@example.com" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Create a password" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-globe"></i>
+                        <select id="country" required>
+                            <option value="" disabled selected>Select your country</option>
+                            <option value="India">India</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="Nepal">Nepal</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="register-button">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                
+                <div class="login-link">
+                    Already have an account? <a href="login.html">Sign in here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const registerForm = document.getElementById('registerForm');
+        const messageContainer = document.getElementById('messageContainer');
+        
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get values
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const country = document.getElementById('country').value;
+            
+            // Clear previous messages
+            messageContainer.innerHTML = '';
+            
+            // Validate
+            if (firstName.length < 2) {
+                messageContainer.innerHTML = '<div class="message error">First name must be at least 2 characters</div>';
+                return;
+            }
+            
+            if (lastName.length < 2) {
+                messageContainer.innerHTML = '<div class="message error">Last name must be at least 2 characters</div>';
+                return;
+            }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                messageContainer.innerHTML = '<div class="message error">Please enter a valid email address</div>';
+                return;
+            }
+            
+            if (password.length < 6) {
+                messageContainer.innerHTML = '<div class="message error">Password must be at least 6 characters</div>';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                messageContainer.innerHTML = '<div class="message error">Passwords do not match</div>';
+                return;
+            }
+            
+            if (!country) {
+                messageContainer.innerHTML = '<div class="message error">Please select your country</div>';
+                return;
+            }
+            
+            // Get existing users
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Check if email exists
+            if (users.some(u => u.email === email)) {
+                messageContainer.innerHTML = '<div class="message error">Email already registered. Please login.</div>';
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                firstName,
+                lastName,
+                email,
+                password: btoa(password), // Simple encoding
+                country,
+                registeredAt: new Date().toISOString()
+            };
+            
+            // Save user
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            console.log('User registered:', email); // Debug
+            
+            messageContainer.innerHTML = '<div class="message success">Registration successful! Redirecting to login...</div>';
+            
+            // Redirect to login
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
+        });
+    });
+</script>
+</body>
+</html>

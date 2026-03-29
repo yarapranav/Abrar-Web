@@ -1,0 +1,2727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Learning | South Asia Connect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="cookies.js"></script>
+    <script src="common.js"></script>
+    <style>
+        :root {
+            --primary: #1a2980;
+            --secondary: #26d0ce;
+            --accent: #ff6b6b;
+            --light: #f8fafc;
+            --dark: #2d3748;
+            --gray: #718096;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), #3a4dcc);
+            color: white;
+            padding: 18px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .login-btn {
+            background-color: white;
+            color: var(--primary);
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(26, 41, 128, 0.9), rgba(38, 208, 206, 0.9)),
+                        url('https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        /* Learning Layout */
+        .learning-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+
+        .sidebar h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--secondary);
+            font-size: 24px;
+        }
+
+        .module-list {
+            list-style: none;
+        }
+
+        .module-item {
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .module-item:hover {
+            background-color: #e6fffa;
+            transform: translateX(5px);
+            border-left-color: var(--secondary);
+        }
+
+        .module-item.active {
+            background-color: var(--primary);
+            color: white;
+            border-left-color: var(--secondary);
+        }
+
+        .module-icon {
+            font-size: 18px;
+            width: 24px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* Module Common Styles */
+        .module-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+
+        .module-section.active {
+            display: block;
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .module-header h2 {
+            color: var(--primary);
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Interactive Map Module */
+        .map-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .map-image {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .country-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 25px 0;
+            justify-content: center;
+        }
+
+        .country-btn {
+            background-color: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .country-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .country-info-panel {
+            background-color: #f0f7ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border-left: 5px solid var(--secondary);
+        }
+
+        .country-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .country-header h3 {
+            color: var(--primary);
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .country-code {
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .country-details {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+
+        .details-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .details-section h4 {
+            color: var(--secondary);
+            margin-bottom: 12px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .detail-item {
+            padding: 12px;
+            background-color: white;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Historical Timeline Module */
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background-color: var(--secondary);
+        }
+
+        .timeline-event {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-event:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            border-top: 4px solid var(--primary);
+        }
+
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .timeline-event:nth-child(odd) .timeline-year {
+            left: auto;
+            right: 50%;
+            transform: translateX(50%);
+        }
+
+        .timeline-content h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        /* Cultural Insights Module */
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .culture-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .culture-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .culture-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .culture-content {
+            padding: 25px;
+        }
+
+        .culture-category {
+            background-color: rgba(38, 208, 206, 0.1);
+            color: var(--secondary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .culture-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Geography Explorer Module */
+        .geography-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .feature-detail {
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .feature-detail.active {
+            display: block;
+        }
+
+        /* Practice Quizzes Module */
+        .quiz-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid var(--secondary);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quiz-category {
+            background-color: rgba(38, 208, 206, 0.1);
+            color: var(--secondary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .quiz-difficulty {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .quiz-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-start {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: background-color 0.3s;
+        }
+
+        .btn-start:hover {
+            background-color: #15246d;
+        }
+
+        /* Study Resources Module */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .resource-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .resource-icon {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .resource-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .resource-links {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .resource-links li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .resource-links li:last-child {
+            border-bottom: none;
+        }
+
+        .resource-links a {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
+        }
+
+        .resource-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* Video Library Module */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .video-card {
+            background-color: #f8fafc;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-thumbnail {
+            height: 180px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 107, 107, 0.9);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .video-content {
+            padding: 20px;
+        }
+
+        .video-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 70px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #4a5568;
+            color: #a0aec0;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            .learning-layout {
+                grid-template-columns: 1fr;
+            }
+            .timeline-container::before {
+                left: 30px;
+            }
+            .timeline-event {
+                flex-direction: row !important;
+                padding-left: 60px;
+            }
+            .timeline-year {
+                left: 0 !important;
+                transform: none !important;
+            }
+            .timeline-content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-globe-asia"></i>
+                <span>SA.C | South Asia Connect</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="courses.html">Courses</a>
+                <a href="learning.html" class="active">Interactive Learning</a>
+                <a href="assessment.html">Assessment</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="dashboard.html" class="login-btn">
+                    <i class="fas fa-user"></i>
+                    Dashboard
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Interactive Learning Hub</h1>
+            <p>Explore South Asia through interactive maps, timelines, cultural insights, and multimedia resources</p>
+        </div>
+    </section>
+
+    <!-- Main Learning Layout -->
+    <div class="container">
+        <div class="learning-layout">
+            <!-- Sidebar with Modules -->
+            <div class="sidebar">
+                <h2><i class="fas fa-layer-group"></i> Learning Modules</h2>
+                <ul class="module-list">
+                    <li class="module-item active" data-module="interactive-map">
+                        <i class="module-icon fas fa-map-marked-alt"></i>
+                        Interactive Map
+                    </li>
+                    <li class="module-item" data-module="historical-timeline">
+                        <i class="module-icon fas fa-history"></i>
+                        Historical Timeline
+                    </li>
+                    <li class="module-item" data-module="cultural-insights">
+                        <i class="module-icon fas fa-landmark"></i>
+                        Cultural Insights
+                    </li>
+                    <li class="module-item" data-module="geography-explorer">
+                        <i class="module-icon fas fa-mountain"></i>
+                        Geography Explorer
+                    </li>
+                    <li class="module-item" data-module="video-library">
+                        <i class="module-icon fas fa-video"></i>
+                        Video Library
+                    </li>
+                    <li class="module-item" data-module="practice-quizzes">
+                        <i class="module-icon fas fa-question-circle"></i>
+                        Practice Quizzes
+                    </li>
+                    <li class="module-item" data-module="study-resources">
+                        <i class="module-icon fas fa-book"></i>
+                        Study Resources
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Interactive Map Module -->
+                <section class="module-section active" id="interactive-map">
+                    <div class="module-header">
+                        <h2><i class="fas fa-map-marked-alt"></i> Interactive South Asia Map</h2>
+                        <div style="color: var(--gray);">Click any country for detailed information</div>
+                    </div>
+                    
+                    <div class="map-container">
+                        <img src="south-asia-map.png" alt="South Asia Map" class="map-image">
+                    </div>
+                    
+                    <div class="country-buttons">
+                        <button class="country-btn" data-country="india"><span>🇮🇳</span> India</button>
+                        <button class="country-btn" data-country="pakistan"><span>🇵🇰</span> Pakistan</button>
+                        <button class="country-btn" data-country="bangladesh"><span>🇧🇩</span> Bangladesh</button>
+                        <button class="country-btn" data-country="sri-lanka"><span>🇱🇰</span> Sri Lanka</button>
+                        <button class="country-btn" data-country="nepal"><span>🇳🇵</span> Nepal</button>
+                        <button class="country-btn" data-country="bhutan"><span>🇧🇹</span> Bhutan</button>
+                        <button class="country-btn" data-country="maldives"><span>🇲🇻</span> Maldives</button>
+                        <button class="country-btn" data-country="afghanistan"><span>🇦🇫</span> Afghanistan</button>
+                    </div>
+
+                    <div class="country-info-panel" id="countryInfo">
+                        <div class="country-header">
+                            <h3><span id="countryFlag">🇮🇳</span> <span id="countryName">India</span> <span class="country-code" id="countryCode">IND</span></h3>
+                        </div>
+                        <div class="country-details" id="countryDetails">
+                            <!-- Content loaded by JavaScript -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Historical Timeline Module -->
+                <section class="module-section" id="historical-timeline">
+                    <div class="module-header">
+                        <h2><i class="fas fa-history"></i> Historical Timeline of South Asia</h2>
+                        <div style="color: var(--gray);">Explore key historical events from 3000 BCE to present</div>
+                    </div>
+                    
+                    <div class="timeline-container">
+                        <!-- Event 1 -->
+                        <div class="timeline-event">
+                            <div class="timeline-year">3000 - 1300 BCE</div>
+                            <div class="timeline-content">
+                                <h3>Indus Valley Civilization</h3>
+                                <p>One of the world's earliest urban civilizations, with advanced city planning, drainage systems, and trade networks covering modern-day Pakistan and northwest India.</p>
+                                <div style="margin-top: 10px;">
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary);">Urban Planning</span>
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary); margin-left: 5px;">Trade</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 2 -->
+                        <div class="timeline-event">
+                            <div class="timeline-year">1500 - 500 BCE</div>
+                            <div class="timeline-content">
+                                <h3>Vedic Period</h3>
+                                <p>Composition of the Vedas, emergence of early Hinduism, development of caste system, and establishment of early kingdoms in the Indian subcontinent.</p>
+                                <div style="margin-top: 10px;">
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary);">Religion</span>
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary); margin-left: 5px;">Social Structure</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 3 -->
+                        <div class="timeline-event">
+                            <div class="timeline-year">322 - 185 BCE</div>
+                            <div class="timeline-content">
+                                <h3>Mauryan Empire</h3>
+                                <p>First major empire in South Asia, established by Chandragupta Maurya, expanded by Ashoka who promoted Buddhism throughout Asia.</p>
+                                <div style="margin-top: 10px;">
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary);">Empire</span>
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary); margin-left: 5px;">Buddhism</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 4 -->
+                        <div class="timeline-event">
+                            <div class="timeline-year">1526 - 1857 CE</div>
+                            <div class="timeline-content">
+                                <h3>Mughal Empire</h3>
+                                <p>Established by Babur, the Mughal Empire became one of the wealthiest empires in history, known for architectural marvels like the Taj Mahal.</p>
+                                <div style="margin-top: 10px;">
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary);">Architecture</span>
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary); margin-left: 5px;">Trade</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 5 -->
+                        <div class="timeline-event">
+                            <div class="timeline-year">1947</div>
+                            <div class="timeline-content">
+                                <h3>Partition & Independence</h3>
+                                <p>British India partitioned into India and Pakistan, leading to one of the largest mass migrations in history and ongoing regional tensions.</p>
+                                <div style="margin-top: 10px;">
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary);">Independence</span>
+                                    <span style="background-color: rgba(38, 208, 206, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 14px; color: var(--secondary); margin-left: 5px;">Partition</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cultural Insights Module -->
+                <section class="module-section" id="cultural-insights">
+                    <div class="module-header">
+                        <h2><i class="fas fa-landmark"></i> Cultural Insights</h2>
+                        <div style="color: var(--gray);">Explore the rich cultural diversity of South Asia</div>
+                    </div>
+                    
+                    <div class="culture-grid">
+                        <!-- Culture 1 -->
+                        <div class="culture-card">
+                            <div class="culture-img" style="background-image: url('https://images.unsplash.com/photo-1567593810070-7a5c0925344e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                            <div class="culture-content">
+                                <span class="culture-category">Festivals</span>
+                                <h3>Diwali: Festival of Lights</h3>
+                                <p>Celebrated across India and by Hindu communities worldwide, Diwali symbolizes the victory of light over darkness.</p>
+                                <div style="margin-top: 15px; font-size: 14px; color: var(--gray);">
+                                    <i class="fas fa-map-marker-alt"></i> Celebrated in: India, Nepal, Sri Lanka
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Culture 2 -->
+                        <div class="culture-card">
+                            <div class="culture-img" style="background-image: url('https://images.unsplash.com/photo-1585208798170-009bda2d8c28?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                            <div class="culture-content">
+                                <span class="culture-category">Architecture</span>
+                                <h3>Taj Mahal: Symbol of Love</h3>
+                                <p>Mughal architectural masterpiece built by Emperor Shah Jahan in memory of his wife Mumtaz Mahal.</p>
+                                <div style="margin-top: 15px; font-size: 14px; color: var(--gray);">
+                                    <i class="fas fa-map-marker-alt"></i> Location: Agra, India
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Culture 3 -->
+                        <div class="culture-card">
+                            <div class="culture-img" style="background-image: url('https://images.unsplash.com/photo-1562778612-e1e0cda9915c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                            <div class="culture-content">
+                                <span class="culture-category">Cuisine</span>
+                                <h3>South Asian Cuisine Diversity</h3>
+                                <p>From spicy curries to sweet desserts, South Asian cuisine varies dramatically by region and culture.</p>
+                                <div style="margin-top: 15px; font-size: 14px; color: var(--gray);">
+                                    <i class="fas fa-utensils"></i> Key dishes: Biryani, Curry, Samosa, Dosa
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Culture 4 -->
+                        <div class="culture-card">
+                            <div class="culture-img" style="background-image: url('https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                            <div class="culture-content">
+                                <span class="culture-category">Textiles</span>
+                                <h3>Traditional Clothing</h3>
+                                <p>Explore traditional garments like Sari, Salwar Kameez, Kurta, and Dhoti across different regions.</p>
+                                <div style="margin-top: 15px; font-size: 14px; color: var(--gray);">
+                                    <i class="fas fa-tshirt"></i> Fabrics: Silk, Cotton, Wool, Banarasi
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Culture 5 -->
+                        <div class="culture-card">
+                            <div class="culture-img" style="background-image: url('https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                            <div class="culture-content">
+                                <span class="culture-category">Religion</span>
+                                <h3>Religious Diversity</h3>
+                                <p>South Asia is the birthplace of four major world religions: Hinduism, Buddhism, Jainism, and Sikhism.</p>
+                                <div style="margin-top: 15px; font-size: 14px; color: var(--gray);">
+                                    <i class="fas fa-pray"></i> Major religions: Hinduism, Islam, Buddhism
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Culture 6 -->
+                        <div class="culture-card">
+                            <div class="culture-img" style="background-image: url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                            <div class="culture-content">
+                                <span class="culture-category">Music & Dance</span>
+                                <h3>Classical Arts</h3>
+                                <p>From Kathak and Bharatanatyam dance forms to classical ragas, South Asia has rich artistic traditions.</p>
+                                <div style="margin-top: 15px; font-size: 14px; color: var(--gray);">
+                                    <i class="fas fa-music"></i> Forms: Classical, Folk, Bollywood
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Geography Explorer Module -->
+                <section class="module-section" id="geography-explorer">
+                    <div class="module-header">
+                        <h2><i class="fas fa-mountain"></i> Geography Explorer</h2>
+                        <div style="color: var(--gray);">Explore the physical geography of South Asia</div>
+                    </div>
+                    
+                    <div class="geography-features">
+                        <!-- Feature 1 -->
+                        <div class="feature-card" data-feature="himalayas">
+                            <div class="feature-icon">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <h3>The Himalayas</h3>
+                            <p>World's highest mountain range, home to Mount Everest</p>
+                        </div>
+
+                        <!-- Feature 2 -->
+                        <div class="feature-card" data-feature="indus">
+                            <div class="feature-icon">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <h3>Indus River System</h3>
+                            <p>Major river system supporting Pakistan's agriculture</p>
+                        </div>
+
+                        <!-- Feature 3 -->
+                        <div class="feature-card" data-feature="ganges">
+                            <div class="feature-icon">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <h3>Ganges-Brahmaputra Delta</h3>
+                            <p>World's largest river delta in Bangladesh</p>
+                        </div>
+
+                        <!-- Feature 4 -->
+                        <div class="feature-card" data-feature="thar">
+                            <div class="feature-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <h3>Thar Desert</h3>
+                            <p>Large arid region in northwest India</p>
+                        </div>
+
+                        <!-- Feature 5 -->
+                        <div class="feature-card" data-feature="deccan">
+                            <div class="feature-icon">
+                                <i class="fas fa-hill-rockslide"></i>
+                            </div>
+                            <h3>Deccan Plateau</h3>
+                            <p>Large plateau covering southern India</p>
+                        </div>
+
+                        <!-- Feature 6 -->
+                        <div class="feature-card" data-feature="monsoon">
+                            <div class="feature-icon">
+                                <i class="fas fa-cloud-rain"></i>
+                            </div>
+                            <h3>Monsoon System</h3>
+                            <p>Seasonal rainfall pattern crucial for agriculture</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature Details Area -->
+                    <div class="feature-detail" id="featureDetail">
+                        <!-- Content loaded by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Video 1 - Updated thumbnail -->
+<div class="video-card" data-video="1">
+    <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+        <div class="play-btn"><i class="fas fa-play"></i></div>
+    </div>
+    <div class="video-content">
+        <h3>Introduction to South Asian Geography</h3>
+        <p>Learn about the physical features, climate zones, and natural resources of South Asia.</p>
+        <div class="video-meta">
+            <span><i class="far fa-clock"></i> 24:15</span>
+            <span><i class="fas fa-user"></i> Dr. Anjali Sharma</span>
+        </div>
+    </div>
+</div>
+
+<!-- Video 2 - Updated thumbnail -->
+<div class="video-card" data-video="2">
+    <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+        <div class="play-btn"><i class="fas fa-play"></i></div>
+    </div>
+    <div class="video-content">
+        <h3>Indus Valley Civilization Explained</h3>
+        <p>Explore one of the world's oldest urban civilizations with detailed archaeological findings.</p>
+        <div class="video-meta">
+            <span><i class="far fa-clock"></i> 31:42</span>
+            <span><i class="fas fa-user"></i> Prof. Rajiv Mehta</span>
+        </div>
+    </div>
+</div>
+
+<!-- Video 3 - Updated thumbnail -->
+<div class="video-card" data-video="3">
+    <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1567593810070-7a5c0925344e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+        <div class="play-btn"><i class="fas fa-play"></i></div>
+    </div>
+    <div class="video-content">
+        <h3>Cultural Festivals of South Asia</h3>
+        <p>From Diwali to Eid, explore the vibrant festivals across the region.</p>
+        <div class="video-meta">
+            <span><i class="far fa-clock"></i> 28:10</span>
+            <span><i class="fas fa-user"></i> Dr. Priya Patel</span>
+        </div>
+    </div>
+</div>
+
+<!-- Video 4 - Updated thumbnail -->
+<div class="video-card" data-video="4">
+    <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1523059623039-a9ed027e7fad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+        <div class="play-btn"><i class="fas fa-play"></i></div>
+    </div>
+    <div class="video-content">
+        <h3>Monsoon Systems Explained</h3>
+        <p>Understanding the monsoon patterns that shape South Asian climate and agriculture.</p>
+        <div class="video-meta">
+            <span><i class="far fa-clock"></i> 22:35</span>
+            <span><i class="fas fa-user"></i> Dr. Sanjay Kumar</span>
+        </div>
+    </div>
+</div>
+                </section>
+
+                <!-- Practice Quizzes Module -->
+                <section class="module-section" id="practice-quizzes">
+                    <div class="module-header">
+                        <h2><i class="fas fa-question-circle"></i> Practice Quizzes</h2>
+                        <div style="color: var(--gray);">Test your knowledge with quick interactive quizzes</div>
+                    </div>
+                    
+                    <div class="quiz-container">
+                        <!-- Quiz 1 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">Geography</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Easy</span>
+                            </div>
+                            <h3>Countries & Capitals</h3>
+                            <p>Test your knowledge of South Asian countries and their capital cities.</p>
+                            <div class="quiz-actions">
+                                <button class="btn-start" data-quiz="capitals">Start Quiz</button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz 2 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">History</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Medium</span>
+                            </div>
+                            <h3>Historical Timeline</h3>
+                            <p>Match historical events with their correct time periods.</p>
+                            <div class="quiz-actions">
+                                <button class="btn-start" data-quiz="timeline">Start Quiz</button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz 3 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">Culture</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Easy</span>
+                            </div>
+                            <h3>Cultural Knowledge</h3>
+                            <p>Identify festivals, traditions, and cultural practices.</p>
+                            <div class="quiz-actions">
+                                <button class="btn-start" data-quiz="culture">Start Quiz</button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz 4 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">Geography</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Hard</span>
+                            </div>
+                            <h3>Physical Features</h3>
+                            <p>Identify mountains, rivers, and other geographical features.</p>
+                            <div class="quiz-actions">
+                                <button class="btn-start" data-quiz="features">Start Quiz</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Study Resources Module -->
+                <section class="module-section" id="study-resources">
+                    <div class="module-header">
+                        <h2><i class="fas fa-book"></i> Study Resources</h2>
+                        <div style="color: var(--gray);">Downloadable materials and reference guides</div>
+                    </div>
+                    
+                    <div class="resources-grid">
+                        <!-- Resource 1 -->
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <h3>Reference Maps</h3>
+                            <p>High-quality printable maps of South Asia with political and physical features.</p>
+                            <ul class="resource-links">
+                                <li><a href="#"><i class="fas fa-download"></i> Political Map (PDF)</a></li>
+                                <li><a href="#"><i class="fas fa-download"></i> Physical Map (PDF)</a></li>
+                                <li><a href="#"><i class="fas fa-download"></i> Climate Zones Map</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Resource 2 -->
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h3>Data & Statistics</h3>
+                            <p>Latest demographic, economic, and social statistics for all South Asian countries.</p>
+                            <ul class="resource-links">
+                                <li><a href="#"><i class="fas fa-download"></i> Population Data (2024)</a></li>
+                                <li><a href="#"><i class="fas fa-download"></i> Economic Indicators</a></li>
+                                <li><a href="#"><i class="fas fa-download"></i> Development Reports</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Resource 3 -->
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h3>Reading Lists</h3>
+                            <p>Curated lists of essential books and academic papers on South Asian studies.</p>
+                            <ul class="resource-links">
+                                <li><a href="#"><i class="fas fa-external-link-alt"></i> History Reading List</a></li>
+                                <li><a href="#"><i class="fas fa-external-link-alt"></i> Cultural Studies</a></li>
+                                <li><a href="#"><i class="fas fa-external-link-alt"></i> Political Analysis</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>SA.C Connect</h3>
+                    <p>The premier platform for South Asian geography, history, and cultural education.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="learning.html">Interactive Learning</a></li>
+                        <li><a href="assessment.html">Assessment</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2024 South Asia Connect. All rights reserved. | Designed for educational purposes</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ==================== COOKIES INITIALIZATION ====================
+        // Check if cookies.js is loaded, if not, define basic cookie functions
+        if (typeof getCookie === 'undefined') {
+            window.getCookie = function(name) {
+                const nameEQ = name + "=";
+                const ca = document.cookie.split(';');
+                for(let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            };
+            
+            window.setCookie = function(name, value, days) {
+                let expires = "";
+                if (days) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            };
+            
+            window.eraseCookie = function(name) {
+                document.cookie = name + '=; Max-Age=-99999999; path=/';
+            };
+        }
+
+        // ==================== PROGRESS TRACKING SYSTEM ====================
+        let userProgress = {
+            completedModules: [],
+            quizScores: {},
+            videoWatched: [],
+            timeSpent: {},
+            lastVisited: null,
+            achievements: []
+        };
+
+        // Load progress from cookies
+        function loadUserProgress() {
+            const savedProgress = getCookie('learningProgress');
+            if (savedProgress) {
+                try {
+                    userProgress = JSON.parse(savedProgress);
+                    updateProgressBar();
+                    highlightCompletedModules();
+                    showAchievements();
+                } catch (e) {
+                    console.log('Error loading progress');
+                }
+            }
+        }
+
+        // Save progress to cookies
+        function saveUserProgress() {
+            setCookie('learningProgress', JSON.stringify(userProgress), 365);
+            updateProgressBar();
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const totalModules = document.querySelectorAll('.module-item').length;
+            const completedCount = userProgress.completedModules.length;
+            const progressPercentage = (completedCount / totalModules) * 100;
+            
+            // Create or update progress bar
+            let progressBar = document.querySelector('.global-progress-bar');
+            if (!progressBar) {
+                const sidebar = document.querySelector('.sidebar');
+                progressBar = document.createElement('div');
+                progressBar.className = 'global-progress-bar';
+                progressBar.innerHTML = `
+                    <div style="margin-bottom: 15px; font-weight: 600; color: var(--primary);">
+                        <i class="fas fa-chart-line"></i> Your Learning Progress
+                    </div>
+                    <div style="background-color: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
+                        <div class="progress-fill" style="width: ${progressPercentage}%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: width 0.5s;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; color: var(--gray);">
+                        <span><span class="completed-count">${completedCount}</span>/<span class="total-count">${totalModules}</span> Modules</span>
+                        <span>${Math.round(progressPercentage)}% Complete</span>
+                    </div>
+                `;
+                sidebar.insertBefore(progressBar, sidebar.querySelector('.module-list'));
+            } else {
+                progressBar.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
+                progressBar.querySelector('.completed-count').textContent = completedCount;
+            }
+        }
+
+        // Track module completion
+        function markModuleComplete(moduleId, moduleName) {
+            if (!userProgress.completedModules.includes(moduleId)) {
+                userProgress.completedModules.push(moduleId);
+                
+                // Track time spent
+                if (!userProgress.timeSpent[moduleId]) {
+                    userProgress.timeSpent[moduleId] = {
+                        startTime: new Date().toISOString(),
+                        visits: 1
+                    };
+                } else {
+                    userProgress.timeSpent[moduleId].visits++;
+                }
+                
+                // Check for achievements
+                checkAchievements(moduleId);
+                saveUserProgress();
+                
+                // Show completion message
+                showCompletionMessage(moduleName);
+            }
+        }
+
+        // Show completion message
+        function showCompletionMessage(moduleName) {
+            const message = document.createElement('div');
+            message.className = 'completion-message';
+            message.innerHTML = `
+                <i class="fas fa-check-circle" style="color: var(--secondary); font-size: 24px;"></i>
+                <div>
+                    <strong>Great job!</strong> You completed "${moduleName}"
+                </div>
+            `;
+            message.style.cssText = `
+                position: fixed; top: 20px; right: 20px; background: white; padding: 15px 25px;
+                border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 9999;
+                border-left: 5px solid var(--secondary); display: flex; align-items: center;
+                gap: 15px; animation: slideIn 0.3s;
+            `;
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                message.style.animation = 'slideOut 0.3s';
+                setTimeout(() => message.remove(), 300);
+            }, 3000);
+        }
+
+        // Highlight completed modules
+        function highlightCompletedModules() {
+            userProgress.completedModules.forEach(moduleId => {
+                const module = document.querySelector(`.module-item[data-module="${moduleId}"]`);
+                if (module) {
+                    module.style.borderLeftColor = 'var(--secondary)';
+                    module.style.backgroundColor = 'rgba(38, 208, 206, 0.1)';
+                    
+                    // Add checkmark if not present
+                    if (!module.querySelector('.completed-badge')) {
+                        const badge = document.createElement('span');
+                        badge.className = 'completed-badge';
+                        badge.innerHTML = '<i class="fas fa-check-circle" style="color: var(--secondary); margin-left: auto;"></i>';
+                        badge.style.marginLeft = 'auto';
+                        module.appendChild(badge);
+                    }
+                }
+            });
+        }
+
+        // ==================== ACHIEVEMENTS SYSTEM ====================
+        const achievements = [
+            { id: 'first_module', name: 'First Steps', description: 'Complete your first module', icon: 'fa-star' },
+            { id: 'five_modules', name: 'Explorer', description: 'Complete 5 modules', icon: 'fa-compass' },
+            { id: 'all_modules', name: 'Master', description: 'Complete all modules', icon: 'fa-crown' },
+            { id: 'quiz_master', name: 'Quiz Master', description: 'Score 100% on any quiz', icon: 'fa-trophy' },
+            { id: 'video_binger', name: 'Video Binger', description: 'Watch all videos', icon: 'fa-film' }
+        ];
+
+        function checkAchievements(moduleId) {
+            const newAchievements = [];
+            
+            // First module achievement
+            if (userProgress.completedModules.length === 1 && !userProgress.achievements.includes('first_module')) {
+                userProgress.achievements.push('first_module');
+                newAchievements.push(achievements.find(a => a.id === 'first_module'));
+            }
+            
+            // Five modules achievement
+            if (userProgress.completedModules.length >= 5 && !userProgress.achievements.includes('five_modules')) {
+                userProgress.achievements.push('five_modules');
+                newAchievements.push(achievements.find(a => a.id === 'five_modules'));
+            }
+            
+            // All modules achievement
+            const totalModules = document.querySelectorAll('.module-item').length;
+            if (userProgress.completedModules.length >= totalModules && !userProgress.achievements.includes('all_modules')) {
+                userProgress.achievements.push('all_modules');
+                newAchievements.push(achievements.find(a => a.id === 'all_modules'));
+            }
+            
+            // Show new achievements
+            newAchievements.forEach(achievement => {
+                showAchievementUnlocked(achievement);
+            });
+        }
+
+        function showAchievementUnlocked(achievement) {
+            const achievementDiv = document.createElement('div');
+            achievementDiv.className = 'achievement-unlocked';
+            achievementDiv.innerHTML = `
+                <i class="fas ${achievement.icon}" style="color: gold; font-size: 30px;"></i>
+                <div>
+                    <strong style="color: var(--primary);">Achievement Unlocked!</strong><br>
+                    <span style="font-size: 14px;">${achievement.name}: ${achievement.description}</span>
+                </div>
+            `;
+            achievementDiv.style.cssText = `
+                position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #1a2980, #3a4dcc);
+                color: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                z-index: 9999; display: flex; align-items: center; gap: 15px; animation: slideIn 0.5s;
+                border-left: 5px solid gold;
+            `;
+            document.body.appendChild(achievementDiv);
+            
+            setTimeout(() => {
+                achievementDiv.style.animation = 'slideOut 0.5s';
+                setTimeout(() => achievementDiv.remove(), 500);
+            }, 5000);
+        }
+
+        function showAchievements() {
+            if (userProgress.achievements.length > 0) {
+                const sidebar = document.querySelector('.sidebar');
+                const achievementsSection = document.createElement('div');
+                achievementsSection.className = 'achievements-section';
+                achievementsSection.innerHTML = `
+                    <h3 style="color: var(--primary); margin: 20px 0 15px;">
+                        <i class="fas fa-trophy" style="color: gold;"></i> Your Achievements
+                    </h3>
+                    <div class="achievements-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 10px;">
+                        ${userProgress.achievements.map(id => {
+                            const ach = achievements.find(a => a.id === id);
+                            return `
+                                <div class="achievement-icon" title="${ach.name}: ${ach.description}" 
+                                     style="background: linear-gradient(135deg, #1a2980, #3a4dcc); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                    <i class="fas ${ach.icon}"></i>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+                sidebar.appendChild(achievementsSection);
+            }
+        }
+
+        // ==================== MODULE SWITCHING WITH PROGRESS ====================
+        const modules = document.querySelectorAll('.module-item');
+        const moduleSections = document.querySelectorAll('.module-section');
+        
+        modules.forEach(module => {
+            module.addEventListener('click', function() {
+                // Update active module
+                modules.forEach(m => m.classList.remove('active'));
+                this.classList.add('active');
+                
+                const moduleId = this.getAttribute('data-module');
+                const moduleName = this.textContent.trim();
+                
+                // Show selected module section
+                moduleSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === moduleId) {
+                        section.classList.add('active');
+                        
+                        // Mark module as visited/completed
+                        if (section.querySelector('.module-header')) {
+                            markModuleComplete(moduleId, moduleName);
+                        }
+                    }
+                });
+                
+                // Save last visited module
+                setCookie('lastVisitedModule', moduleId, 7);
+            });
+        });
+
+        // ==================== ENHANCED COUNTRY DATA ====================
+        const countryData = {
+            india: {
+                flag: "🇮🇳",
+                code: "IND",
+                name: "India",
+                details: `
+                    <div class="details-section">
+                        <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Capital:</span>
+                                <span class="detail-value">New Delhi</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Population:</span>
+                                <span class="detail-value">1.428 billion (2023)</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Area:</span>
+                                <span class="detail-value">3,287,263 km²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Languages:</span>
+                                <span class="detail-value">Hindi, English, 21 scheduled languages</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h4><i class="fas fa-landmark"></i> Key Facts</h4>
+                        <p>World's largest democracy, birthplace of four major religions (Hinduism, Buddhism, Jainism, Sikhism), diverse cultural heritage, rapid economic growth, IT services leader.</p>
+                    </div>
+                    <div class="details-section">
+                        <h4><i class="fas fa-chart-line"></i> Quick Stats</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div style="background: white; padding: 10px; border-radius: 5px;">
+                                <span class="detail-label">GDP</span>
+                                <span>$3.73 trillion</span>
+                            </div>
+                            <div style="background: white; padding: 10px; border-radius: 5px;">
+                                <span class="detail-label">Literacy</span>
+                                <span>77.7%</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            pakistan: {
+                flag: "🇵🇰",
+                code: "PAK",
+                name: "Pakistan",
+                details: `
+                    <div class="details-section">
+                        <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Capital:</span>
+                                <span class="detail-value">Islamabad</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Population:</span>
+                                <span class="detail-value">242.9 million (2023)</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Area:</span>
+                                <span class="detail-value">881,913 km²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Languages:</span>
+                                <span class="detail-value">Urdu, English</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h4><i class="fas fa-landmark"></i> Key Facts</h4>
+                        <p>Home to the ancient Indus Valley Civilization, world's second-largest Muslim population, diverse geography from Arabian Sea to Karakoram mountains.</p>
+                    </div>
+                `
+            },
+            bangladesh: {
+                flag: "🇧🇩",
+                code: "BGD",
+                name: "Bangladesh",
+                details: `
+                    <div class="details-section">
+                        <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Capital:</span>
+                                <span class="detail-value">Dhaka</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Population:</span>
+                                <span class="detail-value">169.4 million (2023)</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Area:</span>
+                                <span class="detail-value">148,460 km²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Languages:</span>
+                                <span class="detail-value">Bengali</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h4><i class="fas fa-landmark"></i> Key Facts</h4>
+                        <p>Land of rivers, home to the Sundarbans mangrove forest and Royal Bengal Tiger, world's second-largest garment exporter.</p>
+                    </div>
+                `
+            },
+            'sri-lanka': {
+                flag: "🇱🇰",
+                code: "LKA",
+                name: "Sri Lanka",
+                details: `
+                    <div class="details-section">
+                        <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Capital:</span>
+                                <span class="detail-value">Sri Jayawardenepura Kotte</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Population:</span>
+                                <span class="detail-value">22.1 million (2023)</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Area:</span>
+                                <span class="detail-value">65,610 km²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Languages:</span>
+                                <span class="detail-value">Sinhala, Tamil</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h4><i class="fas fa-landmark"></i> Key Facts</h4>
+                        <p>Pearl of the Indian Ocean, known for tea production, ancient cities, and beautiful beaches.</p>
+                    </div>
+                `
+            },
+            nepal: {
+                flag: "🇳🇵",
+                code: "NPL",
+                name: "Nepal",
+                details: `
+                    <div class="details-section">
+                        <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Capital:</span>
+                                <span class="detail-value">Kathmandu</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Population:</span>
+                                <span class="detail-value">30.5 million (2023)</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Area:</span>
+                                <span class="detail-value">147,516 km²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Languages:</span>
+                                <span class="detail-value">Nepali</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h4><i class="fas fa-landmark"></i> Key Facts</h4>
+                        <p>Home to Mount Everest, birthplace of Buddha, rich cultural heritage with numerous temples and festivals.</p>
+                    </div>
+                `
+            }
+        };
+
+        // ==================== ENHANCED GEOGRAPHY FEATURES ====================
+        const featureDetails = {
+            himalayas: `
+                <h3 style="color: var(--primary); margin-bottom: 15px;">The Himalayas</h3>
+                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 20px;">
+                <p>The Himalayas are the highest mountain range in the world, spanning 2,400 km across five countries: India, Nepal, Bhutan, China, and Pakistan. The range includes:</p>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li>Mount Everest (8,848m) - World's highest peak</li>
+                    <li>K2 (8,611m) - Second highest peak</li>
+                    <li>Kangchenjunga (8,586m) - Third highest peak</li>
+                </ul>
+                <p style="margin-top: 15px;">The Himalayas are the source of three major river systems: the Indus, Ganges, and Brahmaputra.</p>
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <span style="background: var(--primary); color: white; padding: 5px 10px; border-radius: 5px;">🏔️ 100+ peaks</span>
+                    <span style="background: var(--secondary); color: white; padding: 5px 10px; border-radius: 5px;">🌊 3 river systems</span>
+                </div>
+            `,
+            indus: `
+                <h3 style="color: var(--primary); margin-bottom: 15px;">Indus River System</h3>
+                <img src="https://images.unsplash.com/photo-1610890690540-ec4a395a00f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 20px;">
+                <p>The Indus River is one of the longest rivers in Asia, flowing through China, India, and Pakistan. It is the lifeline of Pakistan's agriculture.</p>
+                <p>Key features:</p>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li>Length: 3,180 km</li>
+                    <li>Major tributaries: Jhelum, Chenab, Ravi, Beas, Sutlej</li>
+                    <li>Supports the world's largest irrigation system</li>
+                    <li>Cradle of the Indus Valley Civilization</li>
+                </ul>
+            `,
+            ganges: `
+                <h3 style="color: var(--primary); margin-bottom: 15px;">Ganges-Brahmaputra Delta</h3>
+                <img src="https://images.unsplash.com/photo-1621873374654-f0ac763c4c7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 20px;">
+                <p>The Ganges-Brahmaputra Delta is the world's largest river delta, covering most of Bangladesh and West Bengal, India.</p>
+                <p>Key features:</p>
+                <ul>
+                    <li>Area: 105,000 km²</li>
+                    <li>Home to the Sundarbans mangrove forest</li>
+                    <li>Extremely fertile agricultural region</li>
+                    <li>Densely populated area</li>
+                </ul>
+            `,
+            thar: `
+                <h3 style="color: var(--primary); margin-bottom: 15px;">Thar Desert</h3>
+                <img src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 20px;">
+                <p>The Thar Desert, also known as the Great Indian Desert, is a large arid region in northwestern India and eastern Pakistan.</p>
+                <ul>
+                    <li>Area: 200,000 km²</li>
+                    <li>17th largest desert in the world</li>
+                    <li>Home to diverse wildlife including desert foxes</li>
+                </ul>
+            `,
+            deccan: `
+                <h3 style="color: var(--primary); margin-bottom: 15px;">Deccan Plateau</h3>
+                <img src="https://images.unsplash.com/photo-1589561253898-768f6d0c0c7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 20px;">
+                <p>The Deccan Plateau is a large plateau covering most of southern India, known for its unique geology and rich mineral resources.</p>
+                <ul>
+                    <li>Area: 1.9 million km²</li>
+                    <li>Rich in minerals: iron, coal, manganese</li>
+                    <li>Surrounded by Eastern and Western Ghats</li>
+                </ul>
+            `,
+            monsoon: `
+                <h3 style="color: var(--primary); margin-bottom: 15px;">Monsoon System</h3>
+                <img src="https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 20px;">
+                <p>The South Asian monsoon is a seasonal wind pattern that brings heavy rainfall to the region, crucial for agriculture.</p>
+                <ul>
+                    <li>June-September: Southwest monsoon</li>
+                    <li>October-December: Northeast monsoon</li>
+                    <li>70% of annual rainfall in 4 months</li>
+                    <li>Critical for 2 billion people's food security</li>
+                </ul>
+            `
+        };
+
+        // ==================== ENHANCED QUIZ SYSTEM ====================
+        const quizzes = {
+            capitals: {
+                title: "Countries & Capitals Quiz",
+                questions: [
+                    {
+                        question: "What is the capital of India?",
+                        options: ["Mumbai", "New Delhi", "Kolkata", "Chennai"],
+                        correct: 1,
+                        explanation: "New Delhi is the capital of India, though Mumbai is the financial capital."
+                    },
+                    {
+                        question: "What is the capital of Pakistan?",
+                        options: ["Karachi", "Lahore", "Islamabad", "Rawalpindi"],
+                        correct: 2,
+                        explanation: "Islamabad is the capital city of Pakistan, built in the 1960s."
+                    },
+                    {
+                        question: "What is the capital of Bangladesh?",
+                        options: ["Chittagong", "Dhaka", "Khulna", "Rajshahi"],
+                        correct: 1,
+                        explanation: "Dhaka is the capital and largest city of Bangladesh."
+                    },
+                    {
+                        question: "What is the capital of Sri Lanka?",
+                        options: ["Colombo", "Kandy", "Galle", "Sri Jayawardenepura Kotte"],
+                        correct: 3,
+                        explanation: "Sri Jayawardenepura Kotte is the official capital, though Colombo is the executive capital."
+                    }
+                ]
+            },
+            timeline: {
+                title: "Historical Timeline Quiz",
+                questions: [
+                    {
+                        question: "When did the Indus Valley Civilization flourish?",
+                        options: ["3000-1300 BCE", "1500-500 BCE", "500-200 BCE", "1000-500 CE"],
+                        correct: 0,
+                        explanation: "The Indus Valley Civilization existed from approximately 3300 to 1300 BCE."
+                    },
+                    {
+                        question: "When did the Mauryan Empire rule?",
+                        options: ["322-185 BCE", "500-700 CE", "1000-1200 CE", "1500-1700 CE"],
+                        correct: 0,
+                        explanation: "The Mauryan Empire ruled from 322 to 185 BCE under Chandragupta and Ashoka."
+                    },
+                    {
+                        question: "When was the Mughal Empire established?",
+                        options: ["1206 CE", "1398 CE", "1526 CE", "1707 CE"],
+                        correct: 2,
+                        explanation: "The Mughal Empire was established by Babur in 1526 CE."
+                    }
+                ]
+            },
+            culture: {
+                title: "Cultural Knowledge Quiz",
+                questions: [
+                    {
+                        question: "Which festival is known as the Festival of Lights?",
+                        options: ["Holi", "Diwali", "Eid", "Christmas"],
+                        correct: 1,
+                        explanation: "Diwali is the Hindu festival of lights, celebrated across South Asia."
+                    },
+                    {
+                        question: "Which religion originated in South Asia?",
+                        options: ["Christianity", "Islam", "Buddhism", "Judaism"],
+                        correct: 2,
+                        explanation: "Buddhism originated in India with Siddhartha Gautama (Buddha)."
+                    }
+                ]
+            },
+            features: {
+                title: "Physical Features Quiz",
+                questions: [
+                    {
+                        question: "What is the world's highest mountain peak?",
+                        options: ["K2", "Kangchenjunga", "Mount Everest", "Lhotse"],
+                        correct: 2,
+                        explanation: "Mount Everest at 8,848 meters is the world's highest peak."
+                    },
+                    {
+                        question: "Which is the longest river in South Asia?",
+                        options: ["Ganges", "Indus", "Brahmaputra", "Yamuna"],
+                        correct: 1,
+                        explanation: "The Indus River is 3,180 km long, making it the longest in South Asia."
+                    }
+                ]
+            }
+        };
+
+        // ==================== ENHANCED QUIZ FUNCTIONS ====================
+        let currentQuiz = null;
+        let currentQuestion = 0;
+        let score = 0;
+        let quizAnswers = [];
+
+        document.querySelectorAll('.btn-start[data-quiz]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const quizId = this.getAttribute('data-quiz');
+                currentQuiz = quizzes[quizId];
+                currentQuestion = 0;
+                score = 0;
+                quizAnswers = new Array(currentQuiz.questions.length).fill(null);
+                
+                // Show quiz interface with enhanced UI
+                document.getElementById('quizInterface').style.display = 'block';
+                document.getElementById('quizTitle').textContent = currentQuiz.title;
+                
+                // Add progress indicator for quiz
+                const quizInterface = document.getElementById('quizInterface');
+                if (!document.querySelector('.quiz-progress')) {
+                    const progressDiv = document.createElement('div');
+                    progressDiv.className = 'quiz-progress';
+                    progressDiv.style.cssText = 'margin: 20px 0;';
+                    quizInterface.querySelector('div').insertBefore(progressDiv, quizInterface.querySelector('h3'));
+                }
+                
+                loadQuestion();
+            });
+        });
+
+        function loadQuestion() {
+            if (!currentQuiz || currentQuestion >= currentQuiz.questions.length) {
+                showQuizResults();
+                return;
+            }
+            
+            const q = currentQuiz.questions[currentQuestion];
+            document.getElementById('quizQuestion').textContent = q.question;
+            
+            // Update progress
+            const progress = document.querySelector('.quiz-progress');
+            if (progress) {
+                const percentage = ((currentQuestion + 1) / currentQuiz.questions.length) * 100;
+                progress.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>Question ${currentQuestion + 1} of ${currentQuiz.questions.length}</span>
+                        <span>${Math.round(percentage)}%</span>
+                    </div>
+                    <div style="background-color: #e2e8f0; height: 5px; border-radius: 5px;">
+                        <div style="width: ${percentage}%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 5px;"></div>
+                    </div>
+                `;
+            }
+            
+            const optionsDiv = document.getElementById('quizOptions');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.textContent = option;
+                btn.style.cssText = 'padding: 15px; border: 2px solid #e2e8f0; border-radius: 8px; background-color: white; cursor: pointer; text-align: left; transition: all 0.3s;';
+                
+                // Highlight if previously answered
+                if (quizAnswers[currentQuestion] === index) {
+                    btn.style.borderColor = 'var(--primary)';
+                    btn.style.backgroundColor = 'rgba(42, 110, 187, 0.1)';
+                }
+                
+                btn.onclick = function() {
+                    // Remove previous selection
+                    optionsDiv.querySelectorAll('button').forEach(b => {
+                        b.style.borderColor = '#e2e8f0';
+                        b.style.backgroundColor = 'white';
+                    });
+                    
+                    // Highlight selected
+                    this.style.borderColor = 'var(--primary)';
+                    this.style.backgroundColor = 'rgba(42, 110, 187, 0.1)';
+                    
+                    // Save answer
+                    quizAnswers[currentQuestion] = index;
+                    
+                    // Check if correct
+                    if (index === q.correct) {
+                        if (quizAnswers[currentQuestion] !== 'correct') {
+                            score++;
+                        }
+                    }
+                    
+                    // Show explanation
+                    showExplanation(q.explanation);
+                };
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function showExplanation(explanation) {
+            let explanationDiv = document.getElementById('quizExplanation');
+            if (!explanationDiv) {
+                explanationDiv = document.createElement('div');
+                explanationDiv.id = 'quizExplanation';
+                explanationDiv.style.cssText = 'margin-top: 20px; padding: 15px; background-color: #f0f7ff; border-radius: 8px; border-left: 4px solid var(--secondary);';
+                document.getElementById('quizOptions').after(explanationDiv);
+            }
+            explanationDiv.innerHTML = `<i class="fas fa-info-circle"></i> ${explanation}`;
+        }
+
+        function showQuizResults() {
+            const totalQuestions = currentQuiz.questions.length;
+            const percentage = (score / totalQuestions) * 100;
+            let grade, message;
+            
+            if (percentage >= 90) {
+                grade = 'Excellent!';
+                message = 'You are a South Asia expert!';
+            } else if (percentage >= 70) {
+                grade = 'Good job!';
+                message = 'You know your South Asia well!';
+            } else if (percentage >= 50) {
+                grade = 'Not bad!';
+                message = 'Keep learning, you\'re getting there!';
+            } else {
+                grade = 'Keep practicing!';
+                message = 'Review the material and try again.';
+            }
+            
+            // Save quiz score to progress
+            if (!userProgress.quizScores[currentQuiz.title]) {
+                userProgress.quizScores[currentQuiz.title] = [];
+            }
+            userProgress.quizScores[currentQuiz.title].push({
+                score: score,
+                total: totalQuestions,
+                percentage: percentage,
+                date: new Date().toISOString()
+            });
+            
+            // Check for quiz mastery achievement
+            if (percentage === 100 && !userProgress.achievements.includes('quiz_master')) {
+                userProgress.achievements.push('quiz_master');
+                showAchievementUnlocked(achievements.find(a => a.id === 'quiz_master'));
+            }
+            
+            saveUserProgress();
+            
+            document.getElementById('quizInterface').innerHTML = `
+                <div style="background-color: white; border-radius: 15px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <div style="font-size: 60px; margin-bottom: 20px;">
+                        ${percentage >= 70 ? '🎉' : '📚'}
+                    </div>
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">Quiz Completed!</h3>
+                    <div style="font-size: 48px; font-weight: bold; color: var(--secondary); margin-bottom: 10px;">
+                        ${score}/${totalQuestions}
+                    </div>
+                    <div style="font-size: 24px; font-weight: 600; margin-bottom: 5px;">
+                        ${grade}
+                    </div>
+                    <div style="color: var(--gray); margin-bottom: 30px;">
+                        ${message}
+                    </div>
+                    
+                    <!-- Progress circle -->
+                    <div style="width: 150px; height: 150px; margin: 0 auto 30px; position: relative;">
+                        <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
+                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                  fill="none" stroke="#e2e8f0" stroke-width="3"/>
+                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                  fill="none" stroke="var(--secondary)" stroke-width="3" stroke-dasharray="${percentage}, 100"/>
+                            <text x="18" y="20.35" text-anchor="middle" style="font-size: 8px; fill: var(--primary); font-weight: bold;">
+                                ${Math.round(percentage)}%
+                            </text>
+                        </svg>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="location.reload()" style="background-color: var(--primary); color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            <i class="fas fa-redo"></i> Try Another Quiz
+                        </button>
+                        <button onclick="reviewQuiz()" style="background-color: transparent; color: var(--primary); padding: 12px 25px; border: 2px solid var(--primary); border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            <i class="fas fa-book"></i> Review Answers
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== VIDEO TRACKING ====================
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const videoId = this.getAttribute('data-video');
+                const title = this.querySelector('h3').textContent;
+                
+                // Track video watch
+                if (!userProgress.videoWatched.includes(videoId)) {
+                    userProgress.videoWatched.push(videoId);
+                    
+                    // Check for video binger achievement
+                    const totalVideos = document.querySelectorAll('.video-card').length;
+                    if (userProgress.videoWatched.length >= totalVideos && !userProgress.achievements.includes('video_binger')) {
+                        userProgress.achievements.push('video_binger');
+                        showAchievementUnlocked(achievements.find(a => a.id === 'video_binger'));
+                    }
+                    
+                    saveUserProgress();
+                }
+                
+                document.getElementById('modalTitle').textContent = title;
+                document.getElementById('videoModal').style.display = 'flex';
+            });
+        });
+
+        // ==================== SEARCH FUNCTIONALITY ====================
+        function addSearchBar() {
+            const sidebar = document.querySelector('.sidebar');
+            const searchDiv = document.createElement('div');
+            searchDiv.className = 'search-modules';
+            searchDiv.innerHTML = `
+                <div style="position: relative; margin-bottom: 20px;">
+                    <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray);"></i>
+                    <input type="text" placeholder="Search modules..." style="width: 100%; padding: 12px 15px 12px 45px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+                </div>
+            `;
+            sidebar.insertBefore(searchDiv, sidebar.querySelector('.module-list'));
+            
+            const searchInput = searchDiv.querySelector('input');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                document.querySelectorAll('.module-item').forEach(module => {
+                    const text = module.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        module.style.display = 'flex';
+                    } else {
+                        module.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // ==================== BOOKMARK FUNCTIONALITY ====================
+        function addBookmarkButton() {
+            const moduleHeader = document.querySelector('.module-header');
+            if (moduleHeader) {
+                const bookmarkBtn = document.createElement('button');
+                bookmarkBtn.className = 'bookmark-module';
+                bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Bookmark';
+                bookmarkBtn.style.cssText = `
+                    background: transparent; border: 2px solid var(--primary); color: var(--primary);
+                    padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600;
+                    display: flex; align-items: center; gap: 8px; transition: all 0.3s;
+                `;
+                
+                bookmarkBtn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('far')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        this.style.backgroundColor = 'var(--primary)';
+                        this.style.color = 'white';
+                        alert('Module bookmarked!');
+                        
+                        // Save bookmark
+                        const bookmarks = JSON.parse(getCookie('bookmarks') || '[]');
+                        bookmarks.push(window.location.href + '#' + document.querySelector('.module-item.active').getAttribute('data-module'));
+                        setCookie('bookmarks', JSON.stringify(bookmarks), 365);
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        this.style.backgroundColor = 'transparent';
+                        this.style.color = 'var(--primary)';
+                    }
+                });
+                
+                moduleHeader.appendChild(bookmarkBtn);
+            }
+        }
+
+        // ==================== NOTES FUNCTIONALITY ====================
+        function addNotesFeature() {
+            const moduleSection = document.querySelector('.module-section.active');
+            if (moduleSection) {
+                const notesDiv = document.createElement('div');
+                notesDiv.className = 'module-notes';
+                notesDiv.innerHTML = `
+                    <div style="margin-top: 30px; background-color: #f8fafc; border-radius: 10px; padding: 20px;">
+                        <h4 style="color: var(--primary); margin-bottom: 15px;">
+                            <i class="fas fa-pen"></i> Your Notes
+                        </h4>
+                        <textarea placeholder="Take notes about this module..." style="width: 100%; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; min-height: 100px; font-family: inherit;"></textarea>
+                        <button class="save-notes" style="background: var(--primary); color: white; padding: 10px 20px; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer;">
+                            <i class="fas fa-save"></i> Save Notes
+                        </button>
+                    </div>
+                `;
+                moduleSection.appendChild(notesDiv);
+                
+                // Load saved notes
+                const moduleId = document.querySelector('.module-item.active').getAttribute('data-module');
+                const savedNotes = getCookie(`notes_${moduleId}`);
+                if (savedNotes) {
+                    notesDiv.querySelector('textarea').value = savedNotes;
+                }
+                
+                // Save notes
+                notesDiv.querySelector('.save-notes').addEventListener('click', function() {
+                    const notes = notesDiv.querySelector('textarea').value;
+                    setCookie(`notes_${moduleId}`, notes, 365);
+                    alert('Notes saved!');
+                });
+            }
+        }
+
+        // ==================== INITIALIZATION ====================
+        // Load user progress
+        loadUserProgress();
+        
+        // Add search bar
+        addSearchBar();
+        
+        // Add bookmark button
+        addBookmarkButton();
+        
+        // Add notes feature to initial module
+        addNotesFeature();
+        
+        // Update notes when module changes
+        const originalClick = modules[0].click;
+        modules.forEach(module => {
+            const oldClick = module.click;
+            module.addEventListener('click', function() {
+                setTimeout(addNotesFeature, 100);
+            });
+        });
+
+        // Country Buttons
+        document.querySelectorAll('.country-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const country = this.getAttribute('data-country');
+                const data = countryData[country];
+                
+                if (data) {
+                    document.getElementById('countryFlag').textContent = data.flag;
+                    document.getElementById('countryName').textContent = data.name;
+                    document.getElementById('countryCode').textContent = data.code;
+                    document.getElementById('countryDetails').innerHTML = data.details;
+                    
+                    // Track country exploration
+                    const exploredCountries = JSON.parse(getCookie('exploredCountries') || '[]');
+                    if (!exploredCountries.includes(country)) {
+                        exploredCountries.push(country);
+                        setCookie('exploredCountries', JSON.stringify(exploredCountries), 365);
+                    }
+                }
+            });
+        });
+
+        // Geography Feature Cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const feature = this.getAttribute('data-feature');
+                const detailDiv = document.getElementById('featureDetail');
+                detailDiv.innerHTML = featureDetails[feature] || '<p>Details coming soon...</p>';
+                detailDiv.classList.add('active');
+            });
+        });
+
+        // Close Modal
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('videoModal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        // Navigation for quiz
+        document.getElementById('nextQuestion').addEventListener('click', function() {
+            if (currentQuiz && currentQuestion < currentQuiz.questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        });
+
+        document.getElementById('prevQuestion').addEventListener('click', function() {
+            if (currentQuiz && currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        });
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    });
+// DOM Manipulation utilities for learning.html
+class DOMManipulator {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        this.createTooltips();
+        this.addKeyboardNavigation();
+        this.createBreadcrumbs();
+        this.addLoadingStates();
+        this.createDynamicFilters();
+    }
+    
+    // Create tooltips for all elements with data-tooltip attribute
+    createTooltips() {
+        document.querySelectorAll('[data-tooltip]').forEach(element => {
+            const tooltipText = element.getAttribute('data-tooltip');
+            
+            element.addEventListener('mouseenter', (e) => {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'custom-tooltip';
+                tooltip.textContent = tooltipText;
+                tooltip.style.cssText = `
+                    position: absolute; background: #1a2980; color: white;
+                    padding: 8px 12px; border-radius: 5px; font-size: 14px;
+                    z-index: 10000; pointer-events: none; transition: all 0.3s;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                `;
+                
+                const rect = element.getBoundingClientRect();
+                tooltip.style.top = rect.top - 40 + 'px';
+                tooltip.style.left = rect.left + (rect.width/2) - 50 + 'px';
+                
+                document.body.appendChild(tooltip);
+                
+                element.addEventListener('mouseleave', () => {
+                    tooltip.remove();
+                }, { once: true });
+            });
+        });
+    }
+    
+    // Add keyboard navigation
+    addKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            // Ctrl + Arrow keys for module navigation
+            if (e.ctrlKey) {
+                const modules = document.querySelectorAll('.module-item');
+                const activeModule = document.querySelector('.module-item.active');
+                const activeIndex = Array.from(modules).indexOf(activeModule);
+                
+                if (e.key === 'ArrowRight' && activeIndex < modules.length - 1) {
+                    modules[activeIndex + 1].click();
+                } else if (e.key === 'ArrowLeft' && activeIndex > 0) {
+                    modules[activeIndex - 1].click();
+                }
+            }
+            
+            // Escape to close modals
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+            
+            // / to focus search
+            if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+                e.preventDefault();
+                const searchInput = document.querySelector('.search-modules input');
+                if (searchInput) searchInput.focus();
+            }
+        });
+    }
+    
+    // Create breadcrumb navigation
+    createBreadcrumbs() {
+        const breadcrumbs = document.createElement('div');
+        breadcrumbs.className = 'breadcrumbs';
+        breadcrumbs.style.cssText = `
+            padding: 15px 0; color: var(--gray); font-size: 14px;
+            border-bottom: 1px solid #e2e8f0; margin-bottom: 20px;
+        `;
+        
+        const path = window.location.pathname.split('/').pop() || 'index.html';
+        const pageName = path.replace('.html', '').charAt(0).toUpperCase() + path.replace('.html', '').slice(1);
+        
+        breadcrumbs.innerHTML = `
+            <i class="fas fa-home"></i> <a href="index.html" style="color: var(--primary);">Home</a>
+            <i class="fas fa-chevron-right" style="margin: 0 10px; font-size: 12px;"></i>
+            <span>${pageName}</span>
+        `;
+        
+        const container = document.querySelector('.container');
+        if (container && !document.querySelector('.breadcrumbs')) {
+            container.insertBefore(breadcrumbs, container.firstChild);
+        }
+    }
+    
+    // Add loading states
+    addLoadingStates() {
+        // Add loading spinner to buttons
+        document.querySelectorAll('button[data-loading]').forEach(button => {
+            button.addEventListener('click', function() {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                }, 2000);
+            });
+        });
+    }
+    
+    // Create dynamic filters
+    createDynamicFilters() {
+        const filterContainer = document.createElement('div');
+        filterContainer.className = 'dynamic-filters';
+        filterContainer.style.cssText = `
+            margin-bottom: 30px; display: flex; gap: 15px; flex-wrap: wrap;
+        `;
+        
+        // Category filter
+        const categoryFilter = this.createSelectFilter(
+            'category',
+            ['All', 'Geography', 'History', 'Culture', 'Interactive'],
+            'Filter by Category'
+        );
+        
+        // Sort filter
+        const sortFilter = this.createSelectFilter(
+            'sort',
+            ['Popularity', 'Newest', 'Name A-Z', 'Name Z-A'],
+            'Sort by'
+        );
+        
+        filterContainer.appendChild(categoryFilter);
+        filterContainer.appendChild(sortFilter);
+        
+        // Add to page if on learning page
+        if (document.querySelector('.learning-layout')) {
+            const header = document.querySelector('.page-header');
+            if (header) {
+                header.appendChild(filterContainer);
+            }
+        }
+    }
+    
+    // Create select filter
+    createSelectFilter(name, options, placeholder) {
+        const select = document.createElement('select');
+        select.name = name;
+        select.style.cssText = `
+            padding: 10px 20px; border: 2px solid #e2e8f0; border-radius: 8px;
+            background: white; color: var(--dark); cursor: pointer;
+            font-size: 14px; min-width: 200px;
+        `;
+        
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = placeholder;
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        select.appendChild(defaultOption);
+        
+        options.forEach(opt => {
+            const option = document.createElement('option');
+            option.value = opt.toLowerCase();
+            option.textContent = opt;
+            select.appendChild(option);
+        });
+        
+        select.addEventListener('change', (e) => {
+            this.applyFilters(e.target.name, e.target.value);
+        });
+        
+        return select;
+    }
+    
+    // Apply filters
+    applyFilters(filterType, value) {
+        if (filterType === 'category') {
+            this.filterByCategory(value);
+        } else if (filterType === 'sort') {
+            this.sortContent(value);
+        }
+    }
+    
+    // Filter by category
+    filterByCategory(category) {
+        document.querySelectorAll('.course-card, .culture-card, .video-card').forEach(card => {
+            const cardCategory = card.querySelector('.course-category, .culture-category')?.textContent.toLowerCase() || '';
+            
+            if (category === 'all' || cardCategory.includes(category)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+    
+    // Sort content
+    sortContent(sortType) {
+        const containers = [
+            document.querySelector('.courses-preview'),
+            document.querySelector('.culture-grid'),
+            document.querySelector('.video-grid')
+        ];
+        
+        containers.forEach(container => {
+            if (!container) return;
+            
+            const items = Array.from(container.children);
+            
+            items.sort((a, b) => {
+                const titleA = a.querySelector('h3')?.textContent || '';
+                const titleB = b.querySelector('h3')?.textContent || '';
+                
+                switch(sortType) {
+                    case 'popularity':
+                        return 0; // Would need view count data
+                    case 'newest':
+                        return 0; // Would need date data
+                    case 'name a-z':
+                        return titleA.localeCompare(titleB);
+                    case 'name z-a':
+                        return titleB.localeCompare(titleA);
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Reorder DOM
+            items.forEach(item => container.appendChild(item));
+        });
+    }
+    
+    // Create modal programmatically
+    createModal(title, content) {
+        const modal = document.createElement('div');
+        modal.className = 'dynamic-modal';
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8); display: flex; align-items: center;
+            justify-content: center; z-index: 10000;
+        `;
+        
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = `
+            background: white; border-radius: 15px; max-width: 500px;
+            width: 90%; max-height: 80vh; overflow-y: auto;
+        `;
+        
+        modalContent.innerHTML = `
+            <div style="padding: 20px; border-bottom: 1px solid #e2e8f0;
+                 display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="color: var(--primary);">${title}</h3>
+                <button class="close-dynamic-modal" style="background: none; border: none;
+                    font-size: 24px; cursor: pointer;">&times;</button>
+            </div>
+            <div style="padding: 20px;">
+                ${content}
+            </div>
+        `;
+        
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+        
+        // Close handlers
+        modalContent.querySelector('.close-dynamic-modal').addEventListener('click', () => {
+            modal.remove();
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
+        
+        return modal;
+    }
+    
+    // Update DOM elements dynamically
+    updateElement(selector, newContent, property = 'innerHTML') {
+        const element = document.querySelector(selector);
+        if (element) {
+            element[property] = newContent;
+        }
+    }
+    
+    // Create notification
+    createNotification(message, type = 'info') {
+        const colors = {
+            info: '#1a2980',
+            success: '#26d0ce',
+            warning: '#fbbf24',
+            error: '#ff6b6b'
+        };
+        
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.style.cssText = `
+            position: fixed; top: 20px; right: 20px; padding: 15px 25px;
+            background: ${colors[type]}; color: white; border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 9999;
+            animation: slideIn 0.3s; cursor: pointer;
+        `;
+        
+        notification.innerHTML = `
+            <i class="fas ${this.getIconForType(type)}"></i>
+            <span style="margin-left: 10px;">${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s';
+            setTimeout(() => notification.remove(), 300);
+        }, 5000);
+        
+        notification.addEventListener('click', () => notification.remove());
+    }
+    
+    getIconForType(type) {
+        const icons = {
+            info: 'fa-info-circle',
+            success: 'fa-check-circle',
+            warning: 'fa-exclamation-triangle',
+            error: 'fa-exclamation-circle'
+        };
+        return icons[type] || 'fa-info-circle';
+    }
+    
+    // Create dynamic tabs
+    createTabs(container, tabs) {
+        const tabContainer = document.createElement('div');
+        tabContainer.className = 'dynamic-tabs';
+        tabContainer.style.cssText = `
+            display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px;
+        `;
+        
+        const contentContainer = document.createElement('div');
+        contentContainer.className = 'tab-content';
+        
+        tabs.forEach((tab, index) => {
+            const tabButton = document.createElement('button');
+            tabButton.className = 'tab-button';
+            tabButton.textContent = tab.title;
+            tabButton.style.cssText = `
+                padding: 10px 20px; background: none; border: none;
+                border-bottom: 3px solid transparent; cursor: pointer;
+                font-weight: ${index === 0 ? '600' : '400'};
+                color: ${index === 0 ? 'var(--primary)' : 'var(--gray)'};
+                transition: all 0.3s;
+            `;
+            
+            tabButton.addEventListener('click', () => {
+                // Update tab styles
+                tabContainer.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.style.borderBottomColor = 'transparent';
+                    btn.style.color = 'var(--gray)';
+                    btn.style.fontWeight = '400';
+                });
+                tabButton.style.borderBottomColor = 'var(--primary)';
+                tabButton.style.color = 'var(--primary)';
+                tabButton.style.fontWeight = '600';
+                
+                // Show content
+                contentContainer.innerHTML = tab.content;
+            });
+            
+            tabContainer.appendChild(tabButton);
+        });
+        
+        // Show first tab content
+        if (tabs.length > 0) {
+            contentContainer.innerHTML = tabs[0].content;
+        }
+        
+        container.appendChild(tabContainer);
+        container.appendChild(contentContainer);
+    }
+}
+
+
+
+// Example usage:
+// domManipulator.createNotification('Welcome back!', 'success');
+// domManipulator.createModal('Quick Tip', 'Use keyboard shortcuts: Ctrl+→ to navigate');
+</script>
+</body>
+</html>

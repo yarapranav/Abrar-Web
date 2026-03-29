@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz | SA.C</title>
+
+<style>
+:root {
+    --primary: #1a2980;
+    --secondary: #26d0ce;
+}
+
+body {
+    font-family: 'Segoe UI';
+    background: #f4f6f9;
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary);
+}
+
+.category-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: none;
+    background: var(--primary);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.question {
+    margin: 25px 0;
+}
+
+.options label {
+    display: block;
+    padding: 10px;
+    margin: 5px 0;
+    background: #f1f1f1;
+    border-radius: 6px;
+}
+
+.submit-btn {
+    background: var(--secondary);
+    padding: 15px;
+    border: none;
+    width: 100%;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.result {
+    text-align: center;
+    font-size: 22px;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<h1>Select Quiz Category</h1>
+
+<div id="categories">
+    <button class="category-btn" onclick="startQuiz('Geography')">Geography</button>
+    <button class="category-btn" onclick="startQuiz('Culture')">Culture</button>
+    <button class="category-btn" onclick="startQuiz('Politics')">Politics</button>
+    <button class="category-btn" onclick="startQuiz('Environment')">Environment</button>
+    <button class="category-btn" onclick="startQuiz('History')">History</button>
+</div>
+
+<form id="quizForm"></form>
+
+<button class="submit-btn" onclick="submitQuiz()" id="submitBtn" style="display:none;">
+Submit Quiz
+</button>
+
+<div class="result" id="result"></div>
+
+</div>
+</div>
+
+<script>
+
+// ✅ FULL DATA
+const quizData = {
+
+Geography: [
+{q:"What causes the South Asian monsoon?", options:["Ocean currents","Temperature difference between land and sea","Earth tilt","Volcanoes"], answer:"Temperature difference between land and sea"},
+{q:"Which river is longest in South Asia?", options:["Yamuna","Brahmaputra","Ganga","Indus"], answer:"Ganga"},
+{q:"The Himalayas act as:", options:["Trade route","Climate barrier","Desert","Ocean"], answer:"Climate barrier"},
+{q:"Which plateau is in India?", options:["Deccan Plateau","Tibetan Plateau","Iranian Plateau","Siberian Plateau"], answer:"Deccan Plateau"},
+{q:"Which desert lies in South Asia?", options:["Sahara","Thar Desert","Gobi","Kalahari"], answer:"Thar Desert"},
+{q:"Monsoon rains are important for:", options:["Industry","Agriculture","Tourism","Mining"], answer:"Agriculture"},
+{q:"Which country has most glaciers?", options:["India","Nepal","Pakistan","Sri Lanka"], answer:"Pakistan"},
+{q:"Coastal areas are prone to:", options:["Earthquakes","Floods and cyclones","Snowstorms","Volcanoes"], answer:"Floods and cyclones"},
+{q:"Which ocean borders South Asia?", options:["Atlantic","Indian Ocean","Pacific","Arctic"], answer:"Indian Ocean"},
+{q:"Brahmaputra flows through:", options:["India only","China India Bangladesh","Nepal only","Pakistan"], answer:"China India Bangladesh"}
+],
+
+Culture: [
+{q:"Diwali is festival of:", options:["Water","Lights","Harvest","Music"], answer:"Lights"},
+{q:"Holi is known for:", options:["Fire","Colors","Dance","Lights"], answer:"Colors"},
+{q:"Which language is widely spoken?", options:["Spanish","Hindi","French","German"], answer:"Hindi"},
+{q:"Traditional dress in India:", options:["Kimono","Saree","Suit","Jacket"], answer:"Saree"},
+{q:"Bollywood belongs to:", options:["USA","India","UK","China"], answer:"India"},
+{q:"South Asia is known for:", options:["One culture","Cultural diversity","No traditions","Same language"], answer:"Cultural diversity"},
+{q:"Which religion originated here?", options:["Christianity","Hinduism","Islam","Judaism"], answer:"Hinduism"},
+{q:"Classical dance form:", options:["Ballet","Bharatanatyam","Hip-hop","Salsa"], answer:"Bharatanatyam"},
+{q:"Which country celebrates Vesak?", options:["India","Sri Lanka","Pakistan","Nepal"], answer:"Sri Lanka"},
+{q:"Food in South Asia is:", options:["Bland","Spicy and diverse","Sweet only","Plain"], answer:"Spicy and diverse"}
+],
+
+Politics: [
+{q:"SAARC stands for:", options:["South Asian Regional Cooperation","Asian Union","Resource Council","Political Body"], answer:"South Asian Regional Cooperation"},
+{q:"India is a:", options:["Monarchy","Democracy","Dictatorship","Empire"], answer:"Democracy"},
+{q:"Parliament makes:", options:["Laws","Weather","Maps","Food"], answer:"Laws"},
+{q:"Pakistan is a:", options:["Democracy","Republic","Empire","Monarchy"], answer:"Republic"},
+{q:"Election means:", options:["War","Voting","Trade","Law"], answer:"Voting"},
+{q:"Constitution is:", options:["Book of laws","Story","Map","Chart"], answer:"Book of laws"},
+{q:"Prime Minister leads:", options:["Army","Government","School","Bank"], answer:"Government"},
+{q:"Diplomacy means:", options:["War","Peaceful relations","Trade","Study"], answer:"Peaceful relations"},
+{q:"Capital of India:", options:["Mumbai","Delhi","Chennai","Kolkata"], answer:"Delhi"},
+{q:"UN works for:", options:["War","Peace","Trade","Tourism"], answer:"Peace"}
+],
+
+Environment: [
+{q:"Climate change causes:", options:["Stability","Extreme weather","No change","Cold only"], answer:"Extreme weather"},
+{q:"Global warming means:", options:["Cooling","Temperature rise","Rainfall","Wind"], answer:"Temperature rise"},
+{q:"Western Ghats are:", options:["Desert","Biodiversity hotspot","Ocean","Plateau"], answer:"Biodiversity hotspot"},
+{q:"Deforestation leads to:", options:["Growth","Habitat loss","Rain","Cooling"], answer:"Habitat loss"},
+{q:"Renewable energy:", options:["Coal","Solar","Oil","Gas"], answer:"Solar"},
+{q:"Pollution affects:", options:["Air only","Environment","Soil only","Water only"], answer:"Environment"},
+{q:"Glaciers are:", options:["Melting","Growing","Static","Burning"], answer:"Melting"},
+{q:"Recycling helps:", options:["Waste increase","Waste reduction","Pollution","Heat"], answer:"Waste reduction"},
+{q:"Carbon dioxide causes:", options:["Cooling","Warming","Rain","Snow"], answer:"Warming"},
+{q:"Sustainable development means:", options:["Overuse","Balanced use","No use","Waste"], answer:"Balanced use"}
+],
+
+History: [
+{q:"Indus Valley known for:", options:["Tech","Urban planning","Space","Cars"], answer:"Urban planning"},
+{q:"Harappa is in:", options:["India","Pakistan","Nepal","Sri Lanka"], answer:"Pakistan"},
+{q:"Vedas belong to:", options:["Modern period","Ancient period","Medieval","British"], answer:"Ancient period"},
+{q:"Mauryan Empire ruler:", options:["Akbar","Ashoka","Babur","Gandhi"], answer:"Ashoka"},
+{q:"Mughal Empire founded by:", options:["Akbar","Babur","Shah Jahan","Aurangzeb"], answer:"Babur"},
+{q:"Taj Mahal built by:", options:["Akbar","Shah Jahan","Babur","Ashoka"], answer:"Shah Jahan"},
+{q:"Nalanda was:", options:["Fort","University","Temple","Palace"], answer:"University"},
+{q:"Gupta period known as:", options:["Dark age","Golden age","Modern","War"], answer:"Golden age"},
+{q:"Buddhism spread by:", options:["Ashoka","Akbar","Babur","Gandhi"], answer:"Ashoka"},
+{q:"Indus cities had:", options:["No planning","Grid planning","Random","Circular"], answer:"Grid planning"}
+]
+
+};
+
+// ✅ URL PARAM
+const params = new URLSearchParams(window.location.search);
+const selectedCategory = params.get("category");
+
+let currentQuiz = [];
+
+// AUTO LOAD
+if(selectedCategory){
+    startQuiz(selectedCategory);
+}
+
+function startQuiz(category){
+    currentQuiz = quizData[category];
+
+    document.getElementById("categories").style.display = "none";
+    document.getElementById("submitBtn").style.display = "block";
+
+    const form = document.getElementById("quizForm");
+    form.innerHTML = `<h2>${category} Quiz</h2>`;
+
+    currentQuiz.forEach((q,i)=>{
+        let html = `<div class="question">
+        <p>${i+1}. ${q.q}</p><div class="options">`;
+
+        q.options.forEach(opt=>{
+            html += `<label>
+            <input type="radio" name="q${i}" value="${opt}"> ${opt}
+            </label>`;
+        });
+
+        html += "</div></div>";
+        form.innerHTML += html;
+    });
+}
+
+function submitQuiz(){
+    let score = 0;
+
+    currentQuiz.forEach((q,i)=>{
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if(selected && selected.value === q.answer){
+            score++;
+        }
+    });
+
+    document.getElementById("result").innerText =
+    "Score: " + score + " / " + currentQuiz.length;
+}
+
+</script>
+
+</body>
+</html>

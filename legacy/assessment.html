@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Center | South Asia Connect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="cookies.js"></script>
+    <script src="common.js"></script>
+    <style>
+        :root {
+            --primary: #1a2980;
+            --secondary: #26d0ce;
+            --accent: #ff6b6b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --light: #f8fafc;
+            --dark: #2d3748;
+            --gray: #718096;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), #3a4dcc);
+            color: white;
+            padding: 18px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .login-btn {
+            background-color: white;
+            color: var(--primary);
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(26, 41, 128, 0.9), rgba(38, 208, 206, 0.9)),
+                        url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        /* Assessment Layout */
+        .assessment-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+
+        .sidebar h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--secondary);
+            font-size: 24px;
+        }
+
+        .progress-card {
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .progress-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .progress-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .assessment-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            background-color: white;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-bottom-color: var(--secondary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Quiz Grid */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            border-top: 5px solid var(--secondary);
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quiz-category {
+            background-color: rgba(38, 208, 206, 0.1);
+            color: var(--secondary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .quiz-difficulty {
+            font-size: 14px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .quiz-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .quiz-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-start {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .btn-start:hover {
+            background-color: #15246d;
+        }
+
+        .btn-preview {
+            background-color: transparent;
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid var(--primary);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .btn-preview:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Test Results */
+        .results-table {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+
+        .table-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            font-weight: 600;
+        }
+
+        .table-row {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            border-bottom: 1px solid #e2e8f0;
+            align-items: center;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .score-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .score-high {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .score-medium {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .score-low {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        /* Certification */
+        .certification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .cert-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .cert-card.featured {
+            border-color: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        .cert-icon {
+            font-size: 48px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .cert-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .cert-requirements {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .cert-requirements li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cert-requirements li:last-child {
+            border-bottom: none;
+        }
+
+        .btn-cert {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 70px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #4a5568;
+            color: #a0aec0;
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            .assessment-layout {
+                grid-template-columns: 1fr;
+            }
+            .quiz-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-globe-asia"></i>
+                <span>SA.C | South Asia Connect</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="courses.html">Courses</a>
+                <a href="learning.html">Interactive Learning</a>
+                <a href="assessment.html" class="active">Assessment</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="dashboard.html" class="login-btn">
+                    <i class="fas fa-user"></i>
+                    Dashboard
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Assessment Center</h1>
+            <p>Test your knowledge, track progress, and earn certifications in South Asian studies</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="assessment-layout">
+            <!-- Sidebar with Progress -->
+            <div class="sidebar">
+                <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+                
+                <div class="progress-card">
+                    <div class="progress-circle">
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" stroke-width="12"/>
+                            <circle cx="60" cy="60" r="54" fill="none" stroke="#26d0ce" stroke-width="12" stroke-dasharray="339.292" stroke-dashoffset="67.858" stroke-linecap="round"/>
+                        </svg>
+                        <div class="progress-value">80%</div>
+                    </div>
+                    <div class="progress-label">Overall Mastery</div>
+                    <p style="color: var(--gray); font-size: 14px;">You're doing great! Keep learning.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">24</div>
+                        <div style="color: var(--gray); font-size: 14px;">Quizzes Taken</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">87%</div>
+                        <div style="color: var(--gray); font-size: 14px;">Avg. Score</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">3</div>
+                        <div style="color: var(--gray); font-size: 14px;">Certificates</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">42</div>
+                        <div style="color: var(--gray); font-size: 14px;">Learning Hours</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3 style="font-size: 18px; margin-bottom: 15px; color: var(--primary);">Quick Actions</h3>
+                    <a href="#" class="btn-start" style="display: block; text-align: center; margin-bottom: 10px;">
+                        <i class="fas fa-redo"></i> Retry Failed Quizzes
+                    </a>
+                    <a href="#" class="btn-preview" style="display: block; text-align: center;">
+                        <i class="fas fa-download"></i> Download Certificates
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Tabs -->
+                <div class="assessment-tabs">
+                    <button class="tab-btn active" data-tab="quizzes">Quizzes & Tests</button>
+                    <button class="tab-btn" data-tab="results">Test Results</button>
+                    <button class="tab-btn" data-tab="certifications">Certifications</button>
+                    <button class="tab-btn" data-tab="practice">Practice Areas</button>
+                </div>
+
+                <!-- Quizzes Tab -->
+                <div class="tab-content active" id="quizzes">
+                    <h2 style="color: var(--primary); margin-bottom: 25px; font-size: 28px;">Available Assessments</h2>
+                    
+                    <div class="quiz-grid">
+                        <!-- Quiz 1 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">Geography</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Beginner</span>
+                            </div>
+                            <h3>South Asia: Physical Features</h3>
+                            <p>Test your knowledge of mountains, rivers, climate zones, and natural resources across South Asia.</p>
+                            <div class="quiz-stats">
+                                <span><i class="far fa-clock"></i> 15 min</span>
+                                <span><i class="fas fa-question-circle"></i> 20 Questions</span>
+                                <span><i class="fas fa-users"></i> 4.8 ★</span>
+                            </div>
+                            <div class="quiz-actions">
+                                <a href="quiz.html?category=Geography" class="btn-start">Start Quiz</a>
+
+                                <a href="#" class="btn-preview">Preview</a>
+                            </div>
+                        </div>
+
+                        <!-- Quiz 2 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">History</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Intermediate</span>
+                            </div>
+                            <h3>Ancient Civilizations</h3>
+                            <p>From Indus Valley to Mughal Empire. Test your understanding of historical timelines and key events.</p>
+                            <div class="quiz-stats">
+                                <span><i class="far fa-clock"></i> 25 min</span>
+                                <span><i class="fas fa-question-circle"></i> 30 Questions</span>
+                                <span><i class="fas fa-users"></i> 4.6 ★</span>
+                            </div>
+                            <div class="quiz-actions">
+                                <a href="quiz.html?category=History" class="btn-start">Start Quiz</a>
+
+                                <a href="#" class="btn-preview">Preview</a>
+                            </div>
+                        </div>
+
+                        <!-- Quiz 3 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">Culture</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Beginner</span>
+                            </div>
+                            <h3>Cultural Diversity</h3>
+                            <p>Languages, religions, festivals, art, and traditions across South Asian countries.</p>
+                            <div class="quiz-stats">
+                                <span><i class="far fa-clock"></i> 20 min</span>
+                                <span><i class="fas fa-question-circle"></i> 25 Questions</span>
+                                <span><i class="fas fa-users"></i> 4.9 ★</span>
+                            </div>
+                            <div class="quiz-actions">
+                                <a href="quiz.html?category=Culture" class="btn-start">Start Quiz</a>
+
+                                <a href="#" class="btn-preview">Preview</a>
+                            </div>
+                        </div>
+
+                        <!-- Quiz 4 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">Politics</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Advanced</span>
+                            </div>
+                            <h3>Modern Political Systems</h3>
+                            <p>Government structures, international relations, and regional conflicts in South Asia.</p>
+                            <div class="quiz-stats">
+                                <span><i class="far fa-clock"></i> 30 min</span>
+                                <span><i class="fas fa-question-circle"></i> 35 Questions</span>
+                                <span><i class="fas fa-users"></i> 4.7 ★</span>
+                            </div>
+                            <div class="quiz-actions">
+                                <a href="quiz.html?category=Politics" class="btn-start">Start Quiz</a>
+                                <a href="#" class="btn-preview">Preview</a>
+                            </div>
+                        </div>
+
+                        <!-- Quiz 5 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">Economics</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Intermediate</span>
+                            </div>
+                            <h3>Economic Development</h3>
+                            <p>GDP, trade, poverty alleviation, and sustainable development across the region.</p>
+                            <div class="quiz-stats">
+                                <span><i class="far fa-clock"></i> 22 min</span>
+                                <span><i class="fas fa-question-circle"></i> 28 Questions</span>
+                                <span><i class="fas fa-users"></i> 4.5 ★</span>
+                            </div>
+                            <div class="quiz-actions">
+                                <a href="quiz.html?category=Environment" class="btn-start">Start Quiz</a>
+                                <a href="#" class="btn-preview">Preview</a>
+                            </div>
+                        </div>
+
+                        <!-- Quiz 6 -->
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-category">Comprehensive</span>
+                                <span class="quiz-difficulty"><i class="fas fa-signal"></i> Advanced</span>
+                            </div>
+                            <h3>Final Certification Exam</h3>
+                            <p>Comprehensive test covering all aspects of South Asian studies. Required for certification.</p>
+                            <div class="quiz-stats">
+                                <span><i class="far fa-clock"></i> 90 min</span>
+                                <span><i class="fas fa-question-circle"></i> 100 Questions</span>
+                                <span><i class="fas fa-users"></i> 4.8 ★</span>
+                            </div>
+                            <div class="quiz-actions">
+                                <a href="quiz.html" class="btn-start">Start Exam</a>
+                                <a href="#" class="btn-preview">Requirements</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Tab -->
+                <div class="tab-content" id="results">
+                    <h2 style="color: var(--primary); margin-bottom: 25px; font-size: 28px;">Your Test Results</h2>
+                    
+                    <div class="results-table">
+                        <div class="table-header">
+                            <div>Assessment</div>
+                            <div>Date</div>
+                            <div>Score</div>
+                            <div>Time</div>
+                            <div>Status</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div>
+                                <strong>Physical Geography Quiz</strong>
+                                <div style="font-size: 14px; color: var(--gray);">Geography • Beginner</div>
+                            </div>
+                            <div>Mar 15, 2024</div>
+                            <div><span class="score-badge score-high">92%</span></div>
+                            <div>12:45</div>
+                            <div><span style="color: var(--success);">✔ Passed</span></div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div>
+                                <strong>Ancient History Test</strong>
+                                <div style="font-size: 14px; color: var(--gray);">History • Intermediate</div>
+                            </div>
+                            <div>Mar 10, 2024</div>
+                            <div><span class="score-badge score-high">88%</span></div>
+                            <div>21:30</div>
+                            <div><span style="color: var(--success);">✔ Passed</span></div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div>
+                                <strong>Cultural Diversity Quiz</strong>
+                                <div style="font-size: 14px; color: var(--gray);">Culture • Beginner</div>
+                            </div>
+                            <div>Mar 5, 2024</div>
+                            <div><span class="score-badge score-medium">76%</span></div>
+                            <div>18:15</div>
+                            <div><span style="color: var(--warning);">✓ Passed</span></div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div>
+                                <strong>Political Systems Exam</strong>
+                                <div style="font-size: 14px; color: var(--gray);">Politics • Advanced</div>
+                            </div>
+                            <div>Feb 28, 2024</div>
+                            <div><span class="score-badge score-low">65%</span></div>
+                            <div>28:40</div>
+                            <div><span style="color: #ef4444;">✘ Retake Needed</span></div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div>
+                                <strong>Economic Development Quiz</strong>
+                                <div style="font-size: 14px; color: var(--gray);">Economics • Intermediate</div>
+                            </div>
+                            <div>Feb 20, 2024</div>
+                            <div><span class="score-badge score-high">94%</span></div>
+                            <div>19:55</div>
+                            <div><span style="color: var(--success);">✔ Passed</span></div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <a href="#" class="btn-start" style="display: inline-block; width: auto; padding: 12px 30px;">
+                            <i class="fas fa-chart-bar"></i> View Detailed Analytics
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Certifications Tab -->
+                <div class="tab-content" id="certifications">
+                    <h2 style="color: var(--primary); margin-bottom: 25px; font-size: 28px;">Available Certifications</h2>
+                    
+                    <div class="certification-grid">
+                        <!-- Cert 1 -->
+                        <div class="cert-card">
+                            <div class="cert-icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <h3>South Asia Geography Specialist</h3>
+                            <p>Master physical and human geography of South Asian countries</p>
+                            <ul class="cert-requirements">
+                                <li><i class="fas fa-check-circle" style="color: var(--success);"></i> Complete 5 geography quizzes</li>
+                                <li><i class="fas fa-check-circle" style="color: var(--success);"></i> Score 85%+ on final exam</li>
+                                <li><i class="fas fa-clock" style="color: var(--warning);"></i> Complete map exercises</li>
+                            </ul>
+                            <a href="#" class="btn-cert">Begin Certification</a>
+                        </div>
+
+                        <!-- Cert 2 -->
+                        <div class="cert-card featured">
+                            <div class="cert-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>South Asian Studies Certificate</h3>
+                            <p>Comprehensive certification covering all aspects of South Asia</p>
+                            <ul class="cert-requirements">
+                                <li><i class="fas fa-check-circle" style="color: var(--success);"></i> Complete all course modules</li>
+                                <li><i class="fas fa-clock" style="color: var(--warning);"></i> Pass all category quizzes</li>
+                                <li><i class="fas fa-clock" style="color: var(--warning);"></i> Score 90%+ on final exam</li>
+                            </ul>
+                            <a href="#" class="btn-cert">Continue (65%)</a>
+                        </div>
+
+                        <!-- Cert 3 -->
+                        <div class="cert-card">
+                            <div class="cert-icon">
+                                <i class="fas fa-landmark"></i>
+                            </div>
+                            <h3>Cultural Heritage Expert</h3>
+                            <p>Specialize in cultural, religious, and traditional aspects</p>
+                            <ul class="cert-requirements">
+                                <li><i class="fas fa-check-circle" style="color: var(--success);"></i> Complete culture modules</li>
+                                <li><i class="fas fa-clock" style="color: var(--warning);"></i> Pass cultural diversity quiz</li>
+                                <li><i class="fas fa-clock" style="color: var(--warning);"></i> Submit research project</li>
+                            </ul>
+                            <a href="#" class="btn-cert">Begin Certification</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>SA.C Connect</h3>
+                    <p>The premier platform for South Asian geography, history, and cultural education.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="learning.html">Interactive Learning</a></li>
+                        <li><a href="assessment.html">Assessment</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2024 South Asia Connect. All rights reserved. | Designed for educational purposes</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+
+                    // Remove active class from all tabs
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Enhanced accessibility for tab navigation
+            tabBtns.forEach(btn => {
+                btn.setAttribute('role', 'tab');
+                btn.setAttribute('aria-selected', 'false');
+                btn.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const tabs = Array.from(tabBtns);
+                        const currentIndex = tabs.indexOf(this);
+                        let nextIndex;
+
+                        if (e.key === 'ArrowRight') {
+                            nextIndex = (currentIndex + 1) % tabs.length;
+                        } else {
+                            nextIndex = currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+                        }
+
+                        tabs[nextIndex].focus();
+                        tabs[nextIndex].click();
+                    }
+                });
+            });
+
+            tabContents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+                content.setAttribute('aria-labelledby', content.id + '-tab');
+            });
+
+            // Set initial tab accessibility
+            const activeTab = document.querySelector('.tab-btn.active');
+            if (activeTab) {
+                activeTab.setAttribute('aria-selected', 'true');
+            }
+        });
+    </script>
+    </script>
+</body>
+</html>

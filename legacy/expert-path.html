@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Learning Path | South Asia Connect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a2980;
+            --secondary: #26d0ce;
+            --accent: #ff6b6b;
+            --light: #f8fafc;
+            --dark: #2d3748;
+            --gray: #718096;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), #3a4dcc);
+            color: white;
+            padding: 18px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .login-btn {
+            background-color: white;
+            color: var(--primary);
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(26, 41, 128, 0.9), rgba(38, 208, 206, 0.9)),
+                        url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .page-header p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Learning Path */
+        .learning-path {
+            margin-bottom: 80px;
+        }
+
+        .path-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .path-header h1 {
+            font-size: 42px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .path-badge {
+            display: inline-block;
+            background-color: #1a2980;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Steps */
+        .steps-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #1a2980;
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background-color: #1a2980;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .courses-list {
+            margin-top: 15px;
+        }
+
+        .course-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s;
+        }
+
+        .course-item:hover {
+            background-color: #e2e8f0;
+            transform: translateX(5px);
+        }
+
+        .course-check {
+            color: #1a2980;
+            font-size: 20px;
+        }
+
+        /* Duration */
+        .duration-badge {
+            background-color: rgba(26, 41, 128, 0.1);
+            color: #1a2980;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* Research Projects */
+        .project-card {
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .project-card h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #1a2980, #3a4dcc);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin: 60px 0;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .start-path-btn {
+            background-color: white;
+            color: var(--primary);
+            padding: 15px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .start-path-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Prerequisites */
+        .prerequisites {
+            background-color: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .prerequisites h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .requirements-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .requirements-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 70px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #4a5568;
+            color: #a0aec0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .step-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-globe-asia"></i>
+                <span>SA.C | South Asia Connect</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="courses.html">Courses</a>
+                <a href="learning.html">Interactive Learning</a>
+                <a href="assessment.html">Assessment</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="dashboard.html" class="login-btn">
+                    <i class="fas fa-user"></i>
+                    Dashboard
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="path-badge">Expert Level</div>
+            <h1>Expert Learning Path</h1>
+            <p>Advanced research methodologies, policy analysis, and specialized regional studies. For professionals, researchers, and serious scholars.</p>
+        </div>
+    </section>
+
+    <!-- Learning Path -->
+    <div class="container">
+        <section class="learning-path">
+            
+            <!-- Prerequisites -->
+            <div class="prerequisites">
+                <h3><i class="fas fa-graduation-cap"></i> Prerequisites & Requirements</h3>
+                <ul class="requirements-list">
+                    <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Completion of <a href="beginner-path.html" style="color: var(--primary); font-weight: 600;">Beginner Path</a></li>
+                    <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Completion of <a href="intermediate-path.html" style="color: var(--primary); font-weight: 600;">Intermediate Path</a></li>
+                    <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Strong foundation in South Asian studies</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Research or professional experience preferred</li>
+                </ul>
+            </div>
+
+            <div class="steps-container">
+                <!-- Step 1 -->
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Advanced Research Methodologies</h3>
+                        <p>Master qualitative and quantitative research techniques specific to South Asian studies.</p>
+                        
+                        <div class="courses-list">
+                            <div class="project-card">
+                                <h4>Research Project: Comparative Policy Analysis</h4>
+                                <p style="color: var(--gray); font-size: 14px;">Analyze and compare three policy areas across two South Asian countries</p>
+                                <div class="duration-badge">6-8 weeks</div>
+                            </div>
+                        </div>
+                        
+                        <div class="duration-badge">Estimated: 8-10 weeks</div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Specialized Regional Studies</h3>
+                        <p>Choose a specialization and conduct in-depth analysis of specific sub-regions or themes.</p>
+                        
+                        <div class="courses-list">
+                            <div class="project-card">
+                                <h4>Specialization Options:</h4>
+                                <ul style="color: var(--gray); font-size: 14px; margin-top: 10px;">
+                                    <li>Himalayan Ecology & Politics</li>
+                                    <li>Maritime Security in the Indian Ocean</li>
+                                    <li>Urbanization & Megacity Governance</li>
+                                    <li>Transboundary Water Management</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="duration-badge">Estimated: 10-12 weeks</div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Policy Analysis & Impact Assessment</h3>
+                        <p>Develop skills to analyze policy effectiveness and measure social impact.</p>
+                        
+                        <div class="courses-list">
+                            <div class="project-card">
+                                <h4>Capstone Project: Policy Recommendation Paper</h4>
+                                <p style="color: var(--gray); font-size: 14px;">Develop comprehensive policy recommendations for a real-world South Asian challenge</p>
+                                <div class="duration-badge">8-10 weeks</div>
+                            </div>
+                        </div>
+                        
+                        <div class="duration-badge">Estimated: 10-12 weeks</div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Expert Consultation & Peer Review</h3>
+                        <p>Engage with expert mentors and participate in peer review processes.</p>
+                        
+                        <div class="courses-list">
+                            <div class="project-card">
+                                <h4>Expert-Led Workshops:</h4>
+                                <p style="color: var(--gray); font-size: 14px;">Monthly sessions with South Asia scholars, policymakers, and regional experts</p>
+                                <div style="color: var(--secondary); font-size: 14px; margin-top: 5px;">
+                                    <i class="fas fa-calendar-alt"></i> Ongoing throughout path
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="duration-badge">Estimated: Continuous</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h2>Ready to Become a South Asia Expert?</h2>
+                <p>Complete this path and earn the prestigious "South Asia Specialist" certification</p>
+                <a href="learning.html" class="start-path-btn">Start Expert Path</a>
+                <p style="margin-top: 20px; font-size: 14px; opacity: 0.9;">
+                    <i class="fas fa-info-circle"></i> This path includes mentorship and personalized guidance
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>SA.C Connect</h3>
+                    <p>The premier platform for South Asian geography, history, and cultural education.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="learning.html">Interactive Learning</a></li>
+                        <li><a href="assessment.html">Assessment</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Learning Paths</h3>
+                    <ul class="footer-links">
+                        <li><a href="beginner-path.html">Beginner Path</a></li>
+                        <li><a href="intermediate-path.html">Intermediate Path</a></li>
+                        <li><a href="expert-path.html">Expert Path</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2024 South Asia Connect. All rights reserved. | Designed for educational purposes</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start Path button
+            document.querySelector('.start-path-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Starting Expert Learning Path! This advanced path includes mentorship and personalized guidance.');
+                
+                // In a real application, this would check prerequisites
+                const confirmed = confirm('Have you completed both Beginner and Intermediate paths?');
+                if (confirmed) {
+                    setTimeout(() => {
+                        window.location.href = 'learning.html';
+                    }, 1500);
+                } else {
+                    alert('We recommend completing the Beginner and Intermediate paths first for the best learning experience.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
